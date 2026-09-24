@@ -831,42 +831,6 @@ h2 {
 .footer p a { color: var(--body); border-bottom: 1px solid var(--line-strong); }
 .footer p a:hover { color: var(--ink); border-color: var(--pink); }
 
-/* ---------- soft background glows ---------- */
-
-/* Purely decorative blurred colour behind a section, like the one in the hero. They sit behind
-   the content (z-index -1), never take clicks, don't animate, and stay pale enough that text on
-   top keeps its contrast. They fade out toward each section's top and bottom edge so there is
-   never a visible seam, and switch off for high-contrast preferences, forced colours and print. */
-.glow { position: relative; isolation: isolate; overflow: clip; }
-.glow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--glow);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
-}
-/* each section gets its own arrangement, so the page feels scattered rather than repeated */
-.glow-a { --glow:
-  radial-gradient(38% 34% at 2% 68%, rgba(255, 205, 178, 0.5), transparent 72%),
-  radial-gradient(30% 30% at 100% 84%, rgba(255, 143, 176, 0.3), transparent 72%); }
-.glow-b { --glow:
-  radial-gradient(34% 28% at 98% 18%, rgba(255, 143, 176, 0.38), transparent 72%),
-  radial-gradient(40% 26% at 0% 80%, rgba(255, 176, 199, 0.34), transparent 72%); }
-.glow-c { --glow:
-  radial-gradient(36% 30% at 2% 26%, rgba(255, 205, 178, 0.46), transparent 72%),
-  radial-gradient(34% 34% at 98% 76%, rgba(255, 143, 176, 0.34), transparent 72%); }
-.glow-d { --glow:
-  radial-gradient(42% 56% at 80% 50%, rgba(255, 143, 176, 0.3), transparent 72%),
-  radial-gradient(30% 36% at 0% 78%, rgba(255, 205, 178, 0.4), transparent 72%); }
-.glow-e { --glow: radial-gradient(40% 100% at 50% 60%, rgba(255, 143, 176, 0.22), transparent 72%); }
-
-@media (prefers-contrast: more), (forced-colors: active), print {
-  .glow::before { display: none; }
-}
-
 /* ---------- responsive ---------- */
 
 @media (max-width: 1100px) {

@@ -105,14 +105,14 @@ export default function Home() {
         </section>
 
         {/* Calculator → full range (email gate) → book a call */}
-        <section id="calculator" className="section calc-section glow glow-a">
+        <section id="calculator" className="section calc-section">
           <div className="wrap">
             <Calculator />
           </div>
         </section>
 
         {/* Client stories */}
-        <section id="work" className="section work glow glow-b">
+        <section id="work" className="section work">
           <div className="wrap">
             <p className="eyebrow">Results</p>
             <h2>Straight from their dashboards.</h2>
@@ -128,7 +128,7 @@ export default function Home() {
         </section>
 
         {/* Services */}
-        <section id="services" className="section glow glow-c">
+        <section id="services" className="section">
           <div className="wrap">
             <p className="eyebrow">Services</p>
             <h2>Three ways to close that gap.</h2>
@@ -174,7 +174,7 @@ export default function Home() {
         </section>
 
         {/* Closing */}
-        <section id="contact" className="finale glow glow-d">
+        <section id="contact" className="finale">
           <div className="wrap">
             <div className="finale-top">
               <div className="finale-copy">
@@ -226,7 +226,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="footer glow glow-e">
+      <footer className="footer">
         <div className="wrap footer-inner">
           <a href="#top" className="brand brand-sm" aria-label="Zero Noise — back to top">
             <i aria-hidden />

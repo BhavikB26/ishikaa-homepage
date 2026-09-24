@@ -434,6 +434,9 @@ h2 {
 .gate-fields input::placeholder { color: var(--soft); }
 .gate-fields input:focus { border-color: var(--pink); outline: none; }
 .gate-open p { margin: 0 0 14px; font-size: 14px; }
+.gate-consent { display: block; margin-top: 10px; font-size: 12px; line-height: 1.45; color: var(--body); }
+/* spam-trap field: off-screen (not display:none, which bots skip) and unreachable by keyboard */
+.hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 
 /* the full range (after unlock) */
 

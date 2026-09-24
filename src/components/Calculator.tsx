@@ -92,8 +92,36 @@ export default function Calculator() {
   const unlock = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    setLead({ name: String(fd.get("name") || "").trim(), email: String(fd.get("email") || "").trim() });
+    const name = String(fd.get("name") || "").trim();
+    const email = String(fd.get("email") || "").trim();
+    setLead({ name, email });
     setTimeout(() => rangeRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+
+    // Save the lead to the sheet. The visitor never waits on this or sees an error from it.
+    const params = new URLSearchParams(window.location.search);
+    const source = ["utm_source", "utm_medium", "utm_campaign"]
+      .map((k) => (params.get(k) ? `${k.slice(4)}=${params.get(k)}` : ""))
+      .filter(Boolean)
+      .join(" ");
+    fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({
+        name,
+        email,
+        company: String(fd.get("company") || ""), // hidden spam-trap: real people leave it empty
+        offer,
+        list,
+        price,
+        currency: sym,
+        floorYearly: yearly(list, price, BENCHMARK.rate),
+        floorMonthly: monthly(list, price, BENCHMARK.rate),
+        page: window.location.pathname,
+        source: source || document.referrer.slice(0, 160),
+        consent: true,
+      }),
+    }).catch(() => {});
   };
 
   const showRange = () => rangeRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -226,9 +254,17 @@ export default function Calculator() {
                     <input name="name" placeholder="First name" autoComplete="given-name" required />
                     <input name="email" type="email" placeholder="Email" autoComplete="email" required />
                   </div>
+                  <div className="hp" aria-hidden>
+                    <label>
+                      Company <input name="company" tabIndex={-1} autoComplete="off" />
+                    </label>
+                  </div>
                   <button type="submit" className="btn btn-pink btn-block">
                     Show me my full potential <span aria-hidden>→</span>
                   </button>
+                  <small className="gate-consent">
+                    By continuing, you agree to get emails from Zero Noise. Unsubscribe any time.
+                  </small>
                 </form>
               )}
             </>

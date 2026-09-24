@@ -99,7 +99,6 @@ h2 {
 }
 
 .section { padding: 120px 0; }
-.tint { background: var(--blush); }
 
 /* ---------- buttons ---------- */
 
@@ -703,7 +702,7 @@ h2 {
   --dx: 64px;
   --dy: 56px;
   padding: 104px 0;
-  background: var(--blush);
+  background: #fff;
 }
 .finale .eyebrow { color: var(--rose); }
 .finale-top {
@@ -736,7 +735,7 @@ h2 {
   padding: 10px;
   border-radius: 32px;
   background: #fff;
-  box-shadow: 0 24px 48px -26px rgba(23, 23, 23, 0.3), 0 2px 8px rgba(23, 23, 23, 0.06);
+  box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.07), 0 24px 48px -26px rgba(23, 23, 23, 0.3), 0 2px 8px rgba(23, 23, 23, 0.06);
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, filter 0.35s ease;
 }
 .scard-yellow { --dot: #f5b000; }

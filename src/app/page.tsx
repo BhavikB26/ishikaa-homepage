@@ -128,7 +128,7 @@ export default function Home() {
         </section>
 
         {/* Services */}
-        <section id="services" className="section tint">
+        <section id="services" className="section">
           <div className="wrap">
             <p className="eyebrow">Services</p>
             <h2>Three ways to close that gap.</h2>

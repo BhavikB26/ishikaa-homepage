@@ -101,7 +101,7 @@ export default function WorkGallery() {
 
   return (
     <>
-      <div className="rail-wrap">
+      <div className={`rail-wrap${edge.start ? " at-start" : ""}${edge.end ? " at-end" : ""}`}>
         <div
           ref={railRef}
           className="rail"
@@ -125,8 +125,6 @@ export default function WorkGallery() {
             </button>
           ))}
         </div>
-        <span className={`rail-fade l${edge.start ? " off" : ""}`} aria-hidden />
-        <span className={`rail-fade r${edge.end ? " off" : ""}`} aria-hidden />
       </div>
 
       <div className="rail-nav">

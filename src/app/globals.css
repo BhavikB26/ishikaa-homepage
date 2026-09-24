@@ -181,7 +181,7 @@ h2 {
 
 .hero2 {
   margin-top: -77px;
-  padding: 148px 0 72px;
+  padding: 118px 0 44px;
   text-align: center;
   background:
     radial-gradient(52% 340px at 50% 70px, rgba(255, 143, 176, 0.3), rgba(255, 143, 176, 0) 100%),
@@ -207,9 +207,9 @@ h2 {
 }
 .hero2 h1 {
   max-width: 1100px;
-  margin: 26px auto 0;
+  margin: 20px auto 0;
   /* two lines at every width: the size scales with the viewport so each line always fits */
-  font-size: min(67.2px, 6.6vw);
+  font-size: min(60px, 6.6vw);
   font-weight: 500;
   line-height: 1.06;
   letter-spacing: -0.035em;
@@ -229,15 +229,15 @@ h2 {
 .built-inner {
   display: flex;
   align-items: center;
-  gap: 36px;
-  height: 70px;
+  gap: 28px;
+  height: 54px;
 }
-.built ul { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 28px; }
+.built ul { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
 .built li {
   display: flex;
   align-items: center;
-  gap: 28px;
-  font: 600 20px/1 var(--display);
+  gap: 22px;
+  font: 600 16.5px/1 var(--display);
   letter-spacing: -0.02em;
 }
 .built li + li::before {
@@ -251,7 +251,7 @@ h2 {
 
 /* ---------- calculator ---------- */
 
-.calc-section { padding: 96px 0 120px; }
+.calc-section { padding: 44px 0 120px; }
 
 .calc2 {
   display: grid;
@@ -262,7 +262,7 @@ h2 {
 
 
 .q2 { padding: 34px 0; }
-.q2:first-of-type { padding-top: 26px; }
+.q2:first-of-type { padding-top: 12px; }
 .q2 + .q2 { border-top: 1px solid var(--line); }
 .q2-title {
   display: flex;
@@ -362,7 +362,6 @@ h2 {
 }
 
 .calc2-action { padding-top: 34px; border-top: 1px solid var(--line); }
-.dirty { margin-top: 12px; font-size: 13.6px; color: var(--rose); }
 
 .result {
   position: sticky;
@@ -391,16 +390,9 @@ h2 {
 .result-empty { color: #e3a3b6; }
 .result-empty span { font: 700 59px/1.05 var(--display); letter-spacing: -0.04em; text-transform: none; color: #e3a3b6; }
 .result-copy { margin-top: 14px; font-size: 15px; line-height: 1.55; color: var(--body); }
-.formula {
-  margin-top: 16px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: #fff;
-  font: 400 13px/1.5 var(--mono);
-  color: var(--ink);
-}
-.formula b { font-weight: 500; color: var(--crimson); }
-.formula-empty { color: var(--soft); }
+.result-copy b { font-weight: 700; color: var(--crimson); letter-spacing: 0.02em; }
+.mono-label u { text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.result-floor { margin-top: 14px; font-size: 14.4px; font-weight: 600; color: var(--crimson); }
 .result-month { margin-top: 14px; font-size: 14.4px; color: var(--body); }
 .result-month b { font-weight: 600; color: var(--ink); }
 
@@ -441,27 +433,22 @@ h2 {
 .level {
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 26px 26px 28px;
   border: 1px solid #f5dfe4;
   border-radius: 22px;
   background: #fff;
 }
-.level-label { font: 500 10.5px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-.level-rate { margin-top: 16px; font: 700 32px/1 var(--display); letter-spacing: -0.03em; }
-.level-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 22px; }
-.level-badge { padding: 5px 9px; border-radius: 999px; background: var(--green); font: 500 9px/1 var(--mono); font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; white-space: nowrap; }
-.level-year { margin-top: 12px; font: 500 15px/1 var(--mono); }
+.level-name { font: 700 26px/1.1 var(--display); letter-spacing: -0.03em; }
+.level-emoji { font-size: 0.9em; }
+.level-year { margin-top: 16px; font: 500 15px/1 var(--mono); }
 .level-month { margin-top: 8px; font: 400 13.5px/1 var(--mono); color: var(--muted); }
-.level h4 { margin-top: 16px; font-size: 16px; line-height: 1.3; }
-.level ul { display: grid; gap: 9px; margin: 16px 0 20px; }
-.level li { position: relative; padding-left: 16px; font-size: 13.6px; line-height: 1.4; color: var(--body); }
-.level li::before { content: ""; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--pink); }
-.level-note { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13.1px; line-height: 1.5; color: var(--muted); }
-.level-solid { border-color: var(--green-line); background: linear-gradient(180deg, #f2fbf6, var(--green-tint)); }
-.level-solid .level-rate, .level-solid .level-year, .level-solid h4 { color: var(--green); }
-.level-solid .level-month { color: #4d9a7c; }
-.level-solid li::before { background: var(--green); }
-.level-solid .level-note { border-top-color: #c6e6d6; }
+.level-tagline { margin-top: 20px; font: 600 16px/1.3 var(--display); letter-spacing: -0.02em; }
+.level-desc { margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--body); }
+/* the highlighted card: Bare Minimum, the number we lead with */
+.level-hi { border-color: var(--green-line); background: linear-gradient(180deg, #f2fbf6, var(--green-tint)); box-shadow: 0 24px 44px -34px rgba(15, 107, 75, 0.5); }
+.level-hi .level-name, .level-hi .level-year, .level-hi .level-tagline { color: var(--green); }
+.level-hi .level-month { color: #4d9a7c; }
+.level-hi .level-desc { color: #35594a; }
 
 .writing {
   display: flex;
@@ -473,7 +460,9 @@ h2 {
   border-radius: 18px;
   background: #fff;
 }
-.writing p { max-width: 520px; font-size: 14px; line-height: 1.5; color: var(--body); }
+.writing-copy { max-width: 540px; }
+.writing-copy b { font: 600 15.5px/1.3 var(--display); letter-spacing: -0.02em; }
+.writing-copy p { margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--body); }
 .writing-actions { display: flex; flex-wrap: wrap; gap: 10px; flex: none; }
 
 .proof { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 52px; align-items: center; margin-top: 44px; }
@@ -493,12 +482,11 @@ h2 {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .bookcard:hover { transform: translateY(-3px); box-shadow: 0 30px 60px -26px rgba(217, 65, 111, 0.4); }
-.bookcard-body { display: grid; gap: 10px; padding: 28px 30px 26px; }
+.bookcard-body { display: grid; gap: 10px; padding: 28px 30px 24px; }
 .bookcard-meta { font-size: 15px; color: var(--muted); }
 .bookcard-body strong { font: 600 27px/1.12 var(--display); letter-spacing: -0.025em; }
-.bookcard-text { font-size: 16px; color: var(--body); }
 .bookcard-foot { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px 18px 30px; border-top: 1px solid var(--line); }
-.bookcard-foot b { font: 700 15px/1 var(--sans); letter-spacing: 0.04em; }
+.bookcard-foot b { font: 600 15px/1.3 var(--sans); }
 .bookcard-go { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--ink); color: #fff; transition: background-color 0.2s ease, color 0.2s ease; }
 .bookcard:hover .bookcard-go { background: var(--pink); color: var(--ink); }
 .bookcard-go svg { width: 20px; height: 20px; }
@@ -600,8 +588,7 @@ h2 {
 .work-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 8px 6px; }
 .work-foot b { font: 600 16px/1.2 var(--display); letter-spacing: -0.02em; }
 .work-foot small { font-size: 12.8px; text-align: right; color: var(--muted); }
-.work-cta { display: flex; justify-content: center; margin-top: 56px; }
-.work-cta .bookcard { width: min(460px, 100%); }
+.work-cta { display: flex; justify-content: center; margin-top: 40px; }
 
 .lightbox { position: fixed; inset: 0; width: min(1100px, 92vw); max-height: 92vh; margin: auto; padding: 0; overflow: visible; border: 0; background: transparent; }
 .lightbox::backdrop { background: rgba(23, 23, 23, 0.72); backdrop-filter: blur(4px); }
@@ -715,6 +702,7 @@ h2 {
   gap: 32px;
 }
 .finale h2 { margin-top: 24px; font-size: 64px; line-height: 1.08; }
+.finale h2 em { font-family: var(--serif); font-style: italic; font-weight: 350; letter-spacing: -0.02em; }
 .finale-p { margin-top: 26px; max-width: 520px; font-size: 17.6px; line-height: 1.6; color: var(--body); }
 
 /* Cascading stack of contact cards. Each card is offset down and to the right of

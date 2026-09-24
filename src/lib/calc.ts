@@ -7,56 +7,34 @@ export const PRICE = { min: 10, max: 50_000, ticks: ["10", "250", "5k", "50k"] }
 // Buyer rate = the share of the whole list that buys the main offer in a year.
 export const LEVELS = [
   {
-    id: "basic",
-    n: "01",
-    name: "Bare minimum",
-    alias: "Basic",
+    id: "bare",
+    name: "Bare Minimum",
+    emoji: "",
     rate: 0.01,
     tagline: "Your email fundamentals are in place.",
-    points: ["Consistent sending", "Welcome sequence", "Basic nurture", "Occasional sales emails", "Clear offer + CTA"],
-    note: "You're giving your list opportunities to buy, but you're not fully leveraging it yet.",
+    desc: "You've got an engaged audience, your essential flows are working, and you're staying in touch. That's the baseline we're using here.",
   },
   {
-    id: "solid",
-    n: "02",
-    name: "Solid",
-    alias: "Standard",
+    id: "consistent",
+    name: "Consistent",
+    emoji: "📈",
     rate: 0.02,
     tagline: "Email is functioning as a real revenue channel.",
-    points: [
-      "Consistent newsletter",
-      "Welcome + nurture",
-      "Regular sales campaigns",
-      "Segmentation",
-      "Automated sequences",
-      "Strategic CTAs",
-      "Launch support",
-    ],
-    note: "You're consistently nurturing the relationship and creating multiple paths to purchase.",
+    desc: "You're emailing regularly, creating reasons to buy, and using launches or campaigns to drive more revenue from your list and newsletter.",
   },
   {
-    id: "optimized",
-    n: "03",
-    name: "Optimized",
-    alias: "Email maxxing",
+    id: "dialled",
+    name: "All Dialled In",
+    emoji: "🚀",
     rate: 0.03,
     tagline: "Email is deeply integrated into your sales system.",
-    points: [
-      "Behavioral segmentation",
-      "Evergreen nurture",
-      "Automated sales sequences",
-      "Launch campaigns",
-      "Re-engagement",
-      "Strategic promotions",
-      "Testing + optimization",
-      "Multiple offers and conversion paths",
-    ],
-    note: "You're actively squeezing more revenue from the audience you already have.",
+    desc: "Your flows, campaigns, segmentation, offers, launches and customer journey are all pulling their weight.",
   },
 ] as const;
 
 export type Level = (typeof LEVELS)[number];
-export const BENCHMARK: Level = LEVELS[1];
+// The headline number is the FLOOR: what the list makes at the bare minimum.
+export const BENCHMARK: Level = LEVELS[0];
 
 export type Snapshot = { offer: Offer; list: number; price: number; sym: string };
 

@@ -13,13 +13,12 @@ import {
   money,
   monthly,
   niceRound,
-  pct,
+
   toPos,
   yearly,
   type Offer,
-  type Snapshot,
 } from "@/lib/calc";
-import { BLUEPRINT_OFFER, BOOKING_URL, CALL_MINUTES, EMAIL } from "@/lib/site";
+import { BLUEPRINT_OFFER, BLUEPRINT_URL, BOOKING_URL, CALL_MINUTES, EMAIL } from "@/lib/site";
 
 const CURRENCIES = ["$", "£", "€"] as const;
 
@@ -72,18 +71,18 @@ export default function Calculator() {
   const [price, setPrice] = useState(1500);
   const [sym, setSym] = useState<(typeof CURRENCIES)[number]>("$");
 
-  // Step 2 — the first result (locked to the answers at the moment "Calculate" was pressed)
-  const [snap, setSnap] = useState<Snapshot | null>(null);
-  // Step 3 — unlocked with a name + email; stays unlocked so answers can be re-run
+  // Step 2 — pressing Calculate reveals the number; from then on it follows the answers live
+  const [calculated, setCalculated] = useState(false);
+  // Step 3 — unlocked with a name + email
   const [lead, setLead] = useState<{ name: string; email: string } | null>(null);
 
   const resultRef = useRef<HTMLDivElement>(null);
   const rangeRef = useRef<HTMLDivElement>(null);
 
-  const dirty = !!snap && (snap.offer !== offer || snap.list !== list || snap.price !== price || snap.sym !== sym);
+  const snap = calculated ? { offer, list, price, sym } : null;
 
   const calculate = () => {
-    setSnap({ offer, list, price, sym });
+    setCalculated(true);
     // On stacked (mobile) layouts the result sits below the questions, so bring it into view.
     if (window.matchMedia("(max-width: 960px)").matches) {
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
@@ -106,7 +105,7 @@ export default function Calculator() {
   const mailto = (() => {
     if (!snap || !lead) return `mailto:${EMAIL}`;
     const line = (l: (typeof LEVELS)[number]) =>
-      `${l.name} (${pct(l.rate)}): ${money(yearly(snap.list, snap.price, l.rate), s)} a year, ${money(monthly(snap.list, snap.price, l.rate), s)} a month`;
+      `${l.name}: ${money(yearly(snap.list, snap.price, l.rate), s)} a year, ${money(monthly(snap.list, snap.price, l.rate), s)} a month`;
     const body = [
       "Hi,",
       "",
@@ -118,7 +117,7 @@ export default function Calculator() {
       "",
       ...LEVELS.map(line),
       "",
-      "Can we talk about which level is realistic for me this year?",
+      "Can we talk about how to get from the bare minimum to the top level?",
       "",
       lead.name,
       lead.email,
@@ -150,7 +149,6 @@ export default function Calculator() {
                 <h3 className="q2-title">
                   <span className="q2-num">02</span> How many people are on your email list?
                 </h3>
-                <p className="q2-hint">Everyone on it, quiet ones included</p>
               </div>
               <label className="field">
                 <NumberInput value={list} min={LIST.min} max={LIST.max} label="Email list size" onChange={setList} />
@@ -165,9 +163,8 @@ export default function Calculator() {
             <div className="q2-head">
               <div>
                 <h3 className="q2-title">
-                  <span className="q2-num">03</span> What&apos;s the price of your main offer?
+                  <span className="q2-num">03</span> What&apos;s your main offer worth?
                 </h3>
-                <p className="q2-hint">A round figure is fine</p>
               </div>
               <div className="field">
                 <select
@@ -191,44 +188,40 @@ export default function Calculator() {
             <button type="button" className="btn btn-pink btn-lg" onClick={calculate}>
               Calculate my email revenue <span aria-hidden>→</span>
             </button>
-            {dirty && <p className="dirty">Answers changed — calculate again to update the numbers.</p>}
           </div>
         </div>
 
-        {/* ---------- right: the first result ---------- */}
+        {/* ---------- right: the bare-minimum number ---------- */}
         <div className="result" ref={resultRef} aria-live="polite">
-          <p className="mono-label rose">Your email revenue benchmark</p>
+          <p className="mono-label rose">
+            Your <u>bare-minimum</u> email revenue
+          </p>
 
           {snap ? (
             <>
               <p className="result-num">
                 {money(benchmarkYear, s)} <span>a year</span>
               </p>
-              <p className="result-copy">
-                If it&apos;s set up right, your email system should be generating this much from the list and offer you
-                already have.
-              </p>
-              <p className="formula">
-                {count(snap.list)} subscribers × <b>{pct(BENCHMARK.rate)} buyer rate</b> × {money(snap.price, s)} offer
-              </p>
+              <p className="result-copy">With the basics in place, your list could generate this much over a year.</p>
               <p className="result-month">
                 That&apos;s about <b>{money(benchmarkMonth, s)} a month</b>, from the list you already have.
               </p>
+              <p className="result-floor">But this is the floor. Want to see the ceiling?</p>
 
               {lead ? (
                 <div className="gate gate-open">
                   <p>
-                    Unlocked{lead.name ? `, ${lead.name}` : ""}. Change an answer here and reopen it to see the new
-                    range.
+                    Unlocked{lead.name ? `, ${lead.name}` : ""}. The full range below follows your answers, so keep
+                    moving the sliders.
                   </p>
                   <button type="button" className="btn btn-pink btn-sm" onClick={showRange}>
-                    Show my full potential again <span aria-hidden>→</span>
+                    See my full range <span aria-hidden>↓</span>
                   </button>
                 </div>
               ) : (
                 <form className="gate" onSubmit={unlock}>
-                  <h4>Curious what the full range looks like?</h4>
-                  <p>See what your list could generate with a basic, solid, or highly optimized email system.</p>
+                  <h4>Want to see the full potential of your list?</h4>
+                  <p>See how much you can realistically make if you do emails right!</p>
                   <div className="gate-fields">
                     <input name="name" placeholder="First name" autoComplete="given-name" required />
                     <input name="email" type="email" placeholder="Email" autoComplete="email" required />
@@ -245,9 +238,8 @@ export default function Calculator() {
                 $<span>—</span>
               </p>
               <p className="result-copy">
-                Answer the three questions, then calculate. Your benchmark shows up here — no email needed.
+                Here&apos;s how much your emails should be making you <b>AT LEAST!</b>
               </p>
-              <p className="formula formula-empty">subscribers × buyer rate × offer price</p>
             </>
           )}
         </div>
@@ -256,40 +248,37 @@ export default function Calculator() {
       {/* ---------- the full range, once unlocked ---------- */}
       {snap && lead && (
         <div className="range" id="range" ref={rangeRef}>
-          <h3 className="range-title">Here&apos;s what your list could generate.</h3>
-          <p className="range-sub">Yearly and monthly · from the answers you gave</p>
+          <h3 className="range-title">Your list could be worth more than you think.</h3>
+          <p className="range-sub">See what changes as your email system gets stronger.</p>
 
           <div className="levels">
             {LEVELS.map((l) => (
-              <article key={l.id} className={`level${l.id === BENCHMARK.id ? " level-solid" : ""}`}>
-                <div className="level-head">
-                  <p className="level-label">
-                    {l.n} — {l.name}
-                  </p>
-                  {l.id === BENCHMARK.id && <em className="level-badge">Your benchmark</em>}
-                </div>
-                <p className="level-rate">{pct(l.rate)}</p>
+              <article key={l.id} className={`level${l.id === BENCHMARK.id ? " level-hi" : ""}`}>
+                <h4 className="level-name">
+                  {l.name}
+                  {l.emoji && (
+                    <span className="level-emoji" aria-hidden>
+                      {" "}
+                      {l.emoji}
+                    </span>
+                  )}
+                </h4>
                 <p className="level-year">{money(yearly(snap.list, snap.price, l.rate), s)} a year</p>
                 <p className="level-month">{money(monthly(snap.list, snap.price, l.rate), s)} a month</p>
-                <h4>{l.tagline}</h4>
-                <ul>
-                  {l.points.map((p) => (
-                    <li key={p}>{p}</li>
-                  ))}
-                </ul>
-                <p className="level-note">{l.note}</p>
+                <p className="level-tagline">{l.tagline}</p>
+                <p className="level-desc">{l.desc}</p>
               </article>
             ))}
           </div>
 
           <div className="writing">
-            <p>
-              Want these numbers in writing? I&apos;ll send them over, then we can talk about which level is realistic
-              for you this year.
-            </p>
+            <div className="writing-copy">
+              <b>Want to reach your email&apos;s full potential?</b>
+              <p>Tell us a little more about your business, and we&apos;ll show you what to prioritize to get there.</p>
+            </div>
             <div className="writing-actions">
               <a href={mailto} className="btn btn-line btn-sm">
-                Email me these numbers
+                Just email me these numbers
               </a>
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-pink btn-sm">
                 Book a free {CALL_MINUTES}-min call <span aria-hidden>→</span>
@@ -320,20 +309,18 @@ export default function Calculator() {
 
           <div className="offer">
             <div>
-              <p className="offer-eyebrow">Or start smaller</p>
+              <p className="offer-eyebrow">Want to get serious about email?</p>
               <h4>
-                Your Email Growth Blueprint — {money(BLUEPRINT_OFFER.price)}{" "}
-                <s>instead of {money(BLUEPRINT_OFFER.was)}</s>
+                Your Email Growth Blueprint — {money(BLUEPRINT_OFFER.price)} <s>{money(BLUEPRINT_OFFER.was)}</s>
               </h4>
               <p>
-                There&apos;s always a villain and a hero in the story. The villain in your email success story could be
-                your deliverability or your emails; the hero is always the strategy and blueprint. We can pinpoint
-                exactly what you should do to get that revenue.
+                Get a detailed audit and a clear 90-day plan for what to build, fix and send, based on your business,
+                offers and audience.
               </p>
               <p className="offer-window">For just {BLUEPRINT_OFFER.window}</p>
             </div>
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-pink btn-lg">
-              Book a call <span aria-hidden>→</span>
+            <a href={BLUEPRINT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-pink btn-lg">
+              Get my 90-day plan <span aria-hidden>→</span>
             </a>
           </div>
         </div>

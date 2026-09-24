@@ -13,3 +13,4 @@ export const CALL_MINUTES = 20;
 
 // Lowest-end service offer shown after the full range is unlocked.
 export const BLUEPRINT_OFFER = { price: 49, was: 99, window: "24 hours" };
+export const BLUEPRINT_URL = "https://topmate.io/ishikaa_jain/2314705";

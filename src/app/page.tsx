@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import BookCard from "@/components/BookCard";
 import Calculator from "@/components/Calculator";
 import { CalculatorArt, CalendarArt, EnvelopeArt } from "@/components/CardArt";
 import Nav from "@/components/Nav";
@@ -54,7 +53,7 @@ const CONTACT_CARDS = [
     tone: "yellow",
     tag: "About 60 seconds",
     title: "Try the calculator",
-    status: "No email needed",
+    status: "Free calculator",
     cta: "Try it",
     href: "#calculator",
     external: false,
@@ -81,7 +80,7 @@ export default function Home() {
         <section className="hero2">
           <div className="wrap hero2-inner">
             <p className="badge">
-              <i aria-hidden /> Free · 60 seconds · no email needed
+              <i aria-hidden /> Free · 60 seconds
             </p>
             <h1>
               <span>How much should your email</span>
@@ -122,7 +121,9 @@ export default function Home() {
             </p>
             <WorkGallery />
             <div className="work-cta">
-              <BookCard />
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-pink btn-lg">
+                Book a free {CALL_MINUTES}-min call <span aria-hidden>→</span>
+              </a>
             </div>
           </div>
         </section>
@@ -180,9 +181,9 @@ export default function Home() {
               <div className="finale-copy">
                 <p className="eyebrow">Let&apos;s talk</p>
                 <h2>
-                  Your list is already <br className="br-d" />
-                  there. Let&apos;s get it <br className="br-d" />
-                  bringing in clients.
+                  Your list is <em>already</em> <br className="br-d" />
+                  there. Let&apos;s make it <br className="br-d" />
+                  <em>make</em> money!
                 </h2>
                 <p className="finale-p">
                   Book a free {CALL_MINUTES}-minute call. Bring your calculator numbers and you&apos;ll leave with three

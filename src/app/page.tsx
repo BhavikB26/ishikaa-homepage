@@ -3,7 +3,7 @@ import Calculator from "@/components/Calculator";
 import { CalculatorArt, CalendarArt, EnvelopeArt } from "@/components/CardArt";
 import Nav from "@/components/Nav";
 import WorkGallery from "@/components/WorkGallery";
-import { BOOKING_URL, CALL_MINUTES, DESIGNER, LINKEDIN_URL, SUBJECT_LINES_URL } from "@/lib/site";
+import { BLUEPRINT_URL, BOOKING_URL, CALL_MINUTES, DESIGNER, LINKEDIN_URL, SUBJECT_LINES_URL } from "@/lib/site";
 
 const AUDIENCES = ["Coaches", "Consultants", "Course creators", "Membership owners", "Service providers"];
 
@@ -12,6 +12,7 @@ const SERVICES = [
     n: "1",
     kicker: "We plan, you build it",
     title: "Email Growth Blueprint",
+    href: BLUEPRINT_URL,
     body: "We work out what your email system needs. You build it.",
     yours: { label: "High", pct: 80 },
     mine: "Strategy + direction",
@@ -165,7 +166,7 @@ export default function Home() {
                     ))}
                   </ul>
 
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-dark btn-sm svc-btn">
+                  <a href={"href" in s ? s.href : BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-dark btn-sm svc-btn">
                     Book a call <span aria-hidden>→</span>
                   </a>
                 </article>

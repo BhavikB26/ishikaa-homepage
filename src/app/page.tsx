@@ -2,7 +2,6 @@ import type { CSSProperties } from "react";
 import BookCard from "@/components/BookCard";
 import Calculator from "@/components/Calculator";
 import { CalculatorArt, CalendarArt, EnvelopeArt } from "@/components/CardArt";
-import Faq from "@/components/Faq";
 import Nav from "@/components/Nav";
 import WorkGallery from "@/components/WorkGallery";
 import { BOOKING_URL, CALL_MINUTES, DESIGNER, LINKEDIN_URL, SUBJECT_LINES_URL } from "@/lib/site";
@@ -171,15 +170,6 @@ export default function Home() {
                 </article>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section id="faq" className="section faq-section">
-          <div className="wrap">
-            <p className="eyebrow">FAQ</p>
-            <h2>Good questions, answered.</h2>
-            <Faq />
           </div>
         </section>
 

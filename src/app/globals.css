@@ -694,50 +694,6 @@ h2 {
 .svc-points li::before { content: ""; position: absolute; left: 0; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 0 3px rgba(255, 110, 153, 0.22); }
 .svc-btn { align-self: flex-start; margin-top: auto; }
 
-/* ---------- faq ---------- */
-
-.faq { margin-top: 54px; border-top: 1px solid var(--line-strong); }
-.faq-item { border-bottom: 1px solid var(--line-strong); }
-.faq-item h3 { font: inherit; letter-spacing: 0; }
-.faq-item button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  width: 100%;
-  padding: 26px 0;
-  border: 0;
-  background: none;
-  text-align: left;
-  font: 600 20.8px/1.25 var(--display);
-  letter-spacing: -0.02em;
-}
-.faq-icon {
-  flex: none;
-  font: 400 26px/1 var(--sans);
-  color: var(--rose);
-  transition: transform 0.25s ease;
-}
-.faq-item[data-open="true"] .faq-icon { transform: rotate(45deg); }
-.faq-body {
-  display: grid;
-  grid-template-rows: 0fr;
-  visibility: hidden;
-  transition: grid-template-rows 0.3s ease, visibility 0s linear 0.3s;
-}
-.faq-item[data-open="true"] .faq-body {
-  grid-template-rows: 1fr;
-  visibility: visible;
-  transition: grid-template-rows 0.3s ease, visibility 0s;
-}
-.faq-body p {
-  overflow: hidden;
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--body);
-}
-.faq-item[data-open="true"] .faq-body p { padding-bottom: 26px; }
-
 /* ---------- closing cta + footer ---------- */
 
 .finale {
@@ -917,7 +873,6 @@ h2 {
   .gate-fields { grid-template-columns: 1fr; }
   .range { padding: 22px 16px; border-radius: 26px; }
   .range-title { font-size: 26px; }
-  .faq-item button { font-size: 18px; }
   .finale { --w: 252px; --h: 332px; --dx: 34px; --dy: 46px; }
   .finale h2 { font-size: 36px; }
   .scard-name strong { font-size: 16px; white-space: normal; }

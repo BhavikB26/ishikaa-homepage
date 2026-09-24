@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BOOKING_URL } from "@/lib/site";
 
 const LINKS = [
-  ["Services", "#services"],
   ["Calculator", "#calculator"],
-  ["How it works", "#how"],
-  ["About", "#about"],
+  ["Services", "#services"],
+  ["Work", "#work"],
   ["FAQ", "#faq"],
 ] as const;
 
@@ -23,8 +23,12 @@ export default function Nav() {
   return (
     <header className={`nav${scrolled ? " nav-scrolled" : ""}`}>
       <div className="wrap nav-inner">
-        <a href="#top" className="logo">
-          ishikaa<span>.</span>
+        <a href="#top" className="brand" aria-label="Zero Noise — Ishikaa and Dikshika">
+          <i aria-hidden />
+          <span>
+            <b>Zero Noise</b>
+            <small>Ishikaa · Dikshika</small>
+          </span>
         </a>
         <nav className="nav-links" aria-label="Primary">
           {LINKS.map(([label, href]) => (
@@ -33,8 +37,8 @@ export default function Nav() {
             </a>
           ))}
         </nav>
-        <a href="#contact" className="btn btn-dark btn-sm">
-          Book a call
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-dark btn-sm">
+          Book a call <span aria-hidden>→</span>
         </a>
       </div>
     </header>

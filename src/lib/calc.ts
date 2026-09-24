@@ -1,62 +1,72 @@
-export type Option<T extends string = string> = { id: T; label: string };
-
-export const OFFERS = [
-  { id: "coaching", label: "Coaching", mult: 1 },
-  { id: "course", label: "Course / program", mult: 1.1 },
-  { id: "consulting", label: "Consulting", mult: 0.9 },
-  { id: "dfy", label: "Done-for-you service", mult: 0.85 },
-  { id: "membership", label: "Membership / community", mult: 1.15 },
-] as const;
-
-export const FREQUENCIES = [
-  { id: "launch", label: "Rarely / only when launching", mult: 0.8 },
-  { id: "monthly", label: "1–2× a month", mult: 1 },
-  { id: "weekly", label: "1× a week", mult: 1.1 },
-  { id: "twothree", label: "2–3× a week", mult: 1.15 },
-  { id: "daily", label: "4+× a week", mult: 1.1 },
-] as const;
-
-// rate = share of the list that buys per year; uplift = how much a well-run
-// welcome + nurture + sales setup lifts that rate in the conservative case.
-export const RESPONSES = [
-  { id: "crickets", emoji: "🥱", title: "Mostly crickets", sub: "Barely any opens or clicks", rate: 0.0035, uplift: 2.6 },
-  { id: "some", emoji: "🙂", title: "Some people respond", sub: "A few clicks and replies", rate: 0.0075, uplift: 1.85 },
-  { id: "strong", emoji: "🔥", title: "People reply, click, buy", sub: "They act on what you send", rate: 0.014, uplift: 1.4 },
-  { id: "unknown", emoji: "🤷", title: "I honestly don't know", sub: "That's fine — we'll assume below average", rate: 0.0055, uplift: 2 },
-] as const;
-
-export const OPTIMISTIC_FACTOR = 1.6;
+export const OFFERS = ["Coaching", "Consulting", "Course", "Service", "Other"] as const;
+export type Offer = (typeof OFFERS)[number];
 
 export const LIST = { min: 50, max: 200_000, ticks: ["50", "1k", "10k", "200k"] };
 export const PRICE = { min: 10, max: 50_000, ticks: ["10", "250", "5k", "50k"] };
 
-export type Inputs = {
-  offer: (typeof OFFERS)[number]["id"];
-  list: number;
-  price: number;
-  frequency: (typeof FREQUENCIES)[number]["id"];
-  response: (typeof RESPONSES)[number]["id"];
-};
+// Buyer rate = the share of the whole list that buys the main offer in a year.
+export const LEVELS = [
+  {
+    id: "basic",
+    n: "01",
+    name: "Bare minimum",
+    alias: "Basic",
+    rate: 0.01,
+    tagline: "Your email fundamentals are in place.",
+    points: ["Consistent sending", "Welcome sequence", "Basic nurture", "Occasional sales emails", "Clear offer + CTA"],
+    note: "You're giving your list opportunities to buy, but you're not fully leveraging it yet.",
+  },
+  {
+    id: "solid",
+    n: "02",
+    name: "Solid",
+    alias: "Standard",
+    rate: 0.02,
+    tagline: "Email is functioning as a real revenue channel.",
+    points: [
+      "Consistent newsletter",
+      "Welcome + nurture",
+      "Regular sales campaigns",
+      "Segmentation",
+      "Automated sequences",
+      "Strategic CTAs",
+      "Launch support",
+    ],
+    note: "You're consistently nurturing the relationship and creating multiple paths to purchase.",
+  },
+  {
+    id: "optimized",
+    n: "03",
+    name: "Optimized",
+    alias: "Email maxxing",
+    rate: 0.03,
+    tagline: "Email is deeply integrated into your sales system.",
+    points: [
+      "Behavioral segmentation",
+      "Evergreen nurture",
+      "Automated sales sequences",
+      "Launch campaigns",
+      "Re-engagement",
+      "Strategic promotions",
+      "Testing + optimization",
+      "Multiple offers and conversion paths",
+    ],
+    note: "You're actively squeezing more revenue from the audience you already have.",
+  },
+] as const;
 
-export type Scenario = { rate: number; clients: number; revenue: number };
-export type Result = { now: Scenario; conservative: Scenario; optimistic: Scenario };
+export type Level = (typeof LEVELS)[number];
+export const BENCHMARK: Level = LEVELS[1];
 
-const scenario = (list: number, price: number, rate: number): Scenario => {
-  const clients = list * rate;
-  return { rate, clients: Math.round(clients), revenue: Math.round((clients * price) / 100) * 100 };
-};
+export type Snapshot = { offer: Offer; list: number; price: number; sym: string };
 
-export function calculate({ offer, list, price, frequency, response }: Inputs): Result {
-  const o = OFFERS.find((x) => x.id === offer)!;
-  const f = FREQUENCIES.find((x) => x.id === frequency)!;
-  const r = RESPONSES.find((x) => x.id === response)!;
-  const now = r.rate * o.mult * f.mult;
-  return {
-    now: scenario(list, price, now),
-    conservative: scenario(list, price, now * r.uplift),
-    optimistic: scenario(list, price, now * r.uplift * OPTIMISTIC_FACTOR),
-  };
-}
+// subscribers × buyer rate × offer price
+export const yearly = (list: number, price: number, rate: number) => Math.round(list * rate * price);
+export const monthly = (list: number, price: number, rate: number) => Math.round((list * rate * price) / 12);
+
+export const money = (n: number, sym = "$") => `${sym}${Math.round(n).toLocaleString("en-US")}`;
+export const count = (n: number) => n.toLocaleString("en-US");
+export const pct = (rate: number) => `${Math.round(rate * 100)}%`;
 
 // Sliders are logarithmic: 0–1 position <-> value.
 export const toPos = (v: number, min: number, max: number) =>
@@ -68,16 +78,3 @@ export function niceRound(v: number) {
   const step = Math.pow(10, Math.floor(Math.log10(v)) - 1);
   return Math.round(v / step) * step;
 }
-
-export function short(n: number, sym = "$") {
-  const a = Math.abs(n);
-  if (a < 1000) return `${sym}${Math.round(a)}`;
-  if (a < 10_000) return `${sym}${(a / 1000).toFixed(1).replace(/\.0$/, "")}k`;
-  if (a < 1_000_000) return `${sym}${Math.round(a / 1000)}k`;
-  return `${sym}${(a / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
-}
-
-export const full = (n: number, sym = "$") =>
-  `${sym}${(Math.round(n / 100) * 100).toLocaleString("en-US")}`;
-
-export const pct = (rate: number) => `${(rate * 100).toFixed(2)}%`;

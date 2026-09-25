@@ -113,29 +113,49 @@ async function saveToSheet(url: string, row: Record<string, unknown>, email: str
 
 // Adds the person to the Kit (ConvertKit) list, optionally tagging them so a sequence can start.
 // KIT_API_KEY is the v4 API key; KIT_TAG_ID (optional) is the numeric id of the tag to apply.
+// Every Kit answer is logged (status + Kit's own error text, never the API key) so Vercel → Logs shows
+// exactly what happened. Returns true only when Kit accepted the subscriber.
 async function saveToKit(key: string, name: string, email: string): Promise<boolean> {
   const kit = (path: string, payload: Record<string, unknown>) =>
     fetch(`https://api.kit.com/v4${path}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "X-Kit-Api-Key": key },
+      headers: { "Content-Type": "application/json", Accept: "application/json", "X-Kit-Api-Key": key },
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(10_000),
       cache: "no-store",
     });
+  // Kit's errors look like {"errors":["..."]}; keep whatever it says, trimmed, for the log
+  const detail = async (res: Response) => (await res.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 300);
+
   try {
     const sub = await kit("/subscribers", { email_address: email, first_name: name });
     if (!sub.ok) {
-      console.error("[lead] Kit rejected the subscriber:", sub.status, "for", email);
+      console.error("[lead] Kit REJECTED the subscriber: status", sub.status, "-", await detail(sub), "| for", email);
       return false;
     }
+    // 201 = new subscriber, 200 = they already existed (Kit keeps their old state), 202 = queued
+    const reply = (await sub.json().catch(() => null)) as { subscriber?: { id?: number; state?: string } } | null;
+    const id = reply?.subscriber?.id;
+    const state = reply?.subscriber?.state ?? "unknown";
+    console.log("[lead] Kit accepted the subscriber: status", sub.status, "| id", id ?? "none", "| state", state);
+    if (!id) console.error("[lead] Kit answered", sub.status, "but returned no subscriber id — check the account behind KIT_API_KEY");
+    if (state !== "active" && state !== "unknown") {
+      console.error("[lead] this email is already in Kit as", state, "- Kit will not reactivate it through the API");
+    }
+
     const tag = process.env.KIT_TAG_ID;
-    if (tag && /^d+$/.test(tag)) {
-      const res = await kit(`/tags/${tag}/subscribers`, { email_address: email });
-      if (!res.ok) console.error("[lead] Kit saved the subscriber but tagging failed:", res.status, "for", email);
+    if (tag) {
+      if (!/^\d+$/.test(tag)) {
+        console.error("[lead] KIT_TAG_ID must be just the number from the tag's URL — not applying a tag");
+      } else {
+        const res = await kit(`/tags/${tag}/subscribers`, { email_address: email });
+        if (res.ok) console.log("[lead] Kit tag", tag, "applied: status", res.status);
+        else console.error("[lead] Kit saved the subscriber but TAGGING FAILED: status", res.status, "-", await detail(res));
+      }
     }
     return true;
   } catch (err) {
-    console.error("[lead] could not reach Kit:", (err as Error).message, "for", email);
+    console.error("[lead] could not reach Kit:", (err as Error).message, "| for", email);
     return false;
   }
 }

@@ -917,7 +917,8 @@ h2 {
   .gate-fields { grid-template-columns: 1fr; }
   .range { padding: 22px 16px; border-radius: 26px; }
   .range-title { font-size: 26px; }
-  .finale { --w: 252px; --h: 332px; --dx: 34px; --dy: 46px; }
+  /* phones: the cards take the width of the screen (a wide, shorter card, not a narrow tall one) so the title, status and button all fit */
+  .finale { --dx: 18px; --dy: 38px; --w: min(360px, calc(100vw - 40px - 2 * var(--dx))); --h: calc(var(--w) * 1.08); }
   .finale h2 { font-size: 36px; }
   .scard-name strong { font-size: 16px; white-space: normal; }
   .scard-foot { gap: 8px; }
@@ -947,8 +948,15 @@ h2 {
 }
 
 @media (max-width: 360px) {
-  .finale { --w: 214px; --h: 318px; --dx: 22px; --dy: 44px; }
-  .scard-name strong { font-size: 15px; }
+  .scard-name strong { font-size: 14.5px; }
+  .scard-foot { padding-left: 8px; gap: 6px; }
+  .scard-name small { font-size: 11px; }
+  .scard-btn { height: 36px; padding: 0 10px; font-size: 12.5px; }
+}
+
+@media (max-width: 340px) {
+  /* smallest phones: let the status wrap instead of being cut off */
+  .scard-name small { white-space: normal; overflow: visible; overflow-wrap: anywhere; text-overflow: clip; line-height: 1.25; }
 }
 
 @media (pointer: coarse) {

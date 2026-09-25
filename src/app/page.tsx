@@ -231,7 +231,6 @@ export default function Home() {
       <footer className="footer">
         <div className="wrap footer-inner">
           <a href="#top" className="brand brand-sm" aria-label="Zero Noise — back to top">
-            <em aria-hidden>🧮</em>
             <span>
               <b>Zero Noise</b>
               <small>Ishikaa · Dikshika</small>

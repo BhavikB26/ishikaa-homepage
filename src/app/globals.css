@@ -135,8 +135,7 @@ h2 {
 
 /* ---------- brand + nav ---------- */
 
-.brand { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; justify-self: start; }
-.brand em { flex: none; font-style: normal; font-size: 27px; line-height: 1; }
+.brand { display: inline-flex; align-items: center; min-height: 44px; justify-self: start; }
 .brand span { display: grid; }
 .brand b { font: 700 16.8px/1.1 var(--display); letter-spacing: -0.03em; }
 .brand small {
@@ -148,7 +147,6 @@ h2 {
   color: var(--muted);
 }
 .brand-sm b { font-size: 15px; }
-.brand-sm em { font-size: 24px; }
 
 .nav {
   position: sticky;

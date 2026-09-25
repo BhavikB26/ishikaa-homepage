@@ -927,11 +927,17 @@ h2 {
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
 
+@media (max-width: 560px) {
+  /* on phones the main call to action spans the whole column, so it lines up with the sliders above it */
+  .calc2-action .btn { width: 100%; height: 56px; padding: 0 16px; }
+}
+
 @media (max-width: 430px) {
   .brand small { letter-spacing: 0.06em; }
 }
 
 @media (max-width: 359px) {
+  .calc2-action .btn { font-size: 15px; gap: 8px; }
   .brand small { display: none; }
 }
 

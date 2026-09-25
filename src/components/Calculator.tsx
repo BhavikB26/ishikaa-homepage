@@ -8,7 +8,6 @@ import {
   LIST,
   OFFERS,
   PRICE,
-  count,
   fromPos,
   money,
   monthly,
@@ -18,7 +17,7 @@ import {
   yearly,
   type Offer,
 } from "@/lib/calc";
-import { BLUEPRINT_OFFER, BLUEPRINT_URL, BOOKING_URL, CALL_MINUTES, EMAIL } from "@/lib/site";
+import { BLUEPRINT_OFFER, BLUEPRINT_URL, BOOKING_URL, CALL_MINUTES } from "@/lib/site";
 
 const CURRENCIES = ["$", "£", "€"] as const;
 
@@ -129,29 +128,6 @@ export default function Calculator() {
   const s = snap?.sym ?? sym;
   const benchmarkYear = snap ? yearly(snap.list, snap.price, BENCHMARK.rate) : 0;
   const benchmarkMonth = snap ? monthly(snap.list, snap.price, BENCHMARK.rate) : 0;
-
-  const mailto = (() => {
-    if (!snap || !lead) return `mailto:${EMAIL}`;
-    const line = (l: (typeof LEVELS)[number]) =>
-      `${l.name}: ${money(yearly(snap.list, snap.price, l.rate), s)} a year, ${money(monthly(snap.list, snap.price, l.rate), s)} a month`;
-    const body = [
-      "Hi,",
-      "",
-      "I ran your email revenue calculator and would like these numbers in writing.",
-      "",
-      `What I sell: ${snap.offer}`,
-      `Subscribers: ${count(snap.list)}`,
-      `Main offer price: ${money(snap.price, s)}`,
-      "",
-      ...LEVELS.map(line),
-      "",
-      "Can we talk about how to get from the bare minimum to the top level?",
-      "",
-      lead.name,
-      lead.email,
-    ].join("\n");
-    return `mailto:${EMAIL}?subject=${encodeURIComponent("My email revenue numbers")}&body=${encodeURIComponent(body)}`;
-  })();
 
   return (
     <>
@@ -313,9 +289,6 @@ export default function Calculator() {
               <p>Tell us a little more about your business, and we&apos;ll show you what to prioritize to get there.</p>
             </div>
             <div className="writing-actions">
-              <a href={mailto} className="btn btn-line btn-sm">
-                Just email me these numbers
-              </a>
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-pink btn-sm">
                 Book a free {CALL_MINUTES}-min call <span aria-hidden>→</span>
               </a>

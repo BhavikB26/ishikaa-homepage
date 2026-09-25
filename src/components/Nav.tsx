@@ -66,8 +66,20 @@ export default function Nav() {
         </nav>
 
         <div className="nav-actions">
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-dark btn-sm">
-            Book a call <span aria-hidden>→</span>
+          {/* on phones this shrinks to a round calendar icon; the full button lives at the end of the menu */}
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-dark btn-sm nav-cta"
+            aria-label="Book a call"
+          >
+            <span className="btn-label">Book a call</span>
+            <span aria-hidden className="btn-arrow">→</span>
+            <svg aria-hidden className="btn-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3.5" y="5" width="17" height="15.5" rx="3" />
+              <path d="M3.5 10h17M8 3v4M16 3v4M9.2 15.2l2 2 3.8-4" />
+            </svg>
           </a>
           <button
             ref={buttonRef}
@@ -89,6 +101,15 @@ export default function Nav() {
             {label}
           </a>
         ))}
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-dark menu-cta"
+          onClick={() => close()}
+        >
+          Book a call <span aria-hidden>→</span>
+        </a>
       </nav>
     </header>
   );

@@ -188,6 +188,7 @@ h2 {
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { top: 0; transform: rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars::after { top: 0; transform: rotate(-45deg); }
 .nav-menu { display: none; }
+.btn-icon, .menu-cta { display: none; }
 .nav-links { display: flex; gap: 28px; }
 .nav-links a { font-size: 14.4px; color: var(--body); transition: color 0.15s; }
 .nav-links a:hover { color: var(--ink); }
@@ -868,18 +869,13 @@ h2 {
   .nav-menu[hidden] { display: none; }
   .nav-menu a { display: flex; align-items: center; min-height: 48px; padding: 0 16px; border-radius: 14px; font: 500 16px/1 var(--sans); color: var(--ink); }
   .nav-menu a:hover, .nav-menu a:focus-visible { background: var(--blush); }
-  .built-inner { flex-direction: column; align-items: flex-start; gap: 10px; height: auto; padding-top: 16px; padding-bottom: 18px; }
-  .built ul { gap: 8px; }
-  .built li {
-    gap: 0;
-    padding: 9px 14px;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    background: var(--blush-2);
-    font-size: 14.5px;
-    line-height: 1.1;
-  }
+  .nav-menu a.menu-cta { display: none; }
+  .built-inner { flex-direction: column; align-items: flex-start; gap: 8px; height: auto; padding-top: 16px; padding-bottom: 18px; }
+  /* a plain running line of text (Coaches, Consultants, ...): it must not read as a row of buttons */
+  .built ul { display: block; }
+  .built li { display: inline; gap: 0; font-size: 16px; line-height: 1.6; }
   .built li + li::before { display: none; }
+  .built li:not(:last-child)::after { content: ", "; }
   .br-d { display: none; }
   h2 { font-size: 42px; }
   .hero2 { padding-top: 132px; }
@@ -898,9 +894,23 @@ h2 {
 }
 
 @media (max-width: 720px) {
+  /* phone header: the call button shrinks to a round calendar icon; the full one is at the end of the menu */
+  .nav-cta { width: 44px; padding: 0; gap: 0; }
+  .nav-cta .btn-label, .nav-cta .btn-arrow { display: none; }
+  .nav-cta .btn-icon { display: block; }
+  .nav-menu a.menu-cta {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    min-height: 50px;
+    margin-top: 6px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 600;
+  }
+  .nav-menu a.menu-cta:hover, .nav-menu a.menu-cta:focus-visible { background: #2b2b2b; }
   .wrap { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
   h2 { font-size: 34px; }
-  .built li { font-size: 14px; padding: 8px 13px; }
   .chips, .q2-hint, .ticks { padding-left: 0; margin-left: 0; }
   .slider { width: 100%; margin-left: 0; }
   .q2-head { flex-direction: column; gap: 12px; }
@@ -920,9 +930,6 @@ h2 {
 }
 
 @media (max-width: 430px) {
-  /* phone header: a compact call button (no arrow) so the brand's second line and the menu button all fit */
-  .nav-actions .btn span { display: none; }
-  .nav-actions .btn { padding: 0 14px; }
   .brand small { letter-spacing: 0.06em; }
 }
 

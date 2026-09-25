@@ -135,15 +135,7 @@ h2 {
 
 /* ---------- brand + nav ---------- */
 
-.brand { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; justify-self: start; }
-.brand i {
-  width: 9px;
-  height: 9px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--pink);
-  box-shadow: 0 0 0 3px rgba(255, 110, 153, 0.22);
-}
+.brand { display: inline-flex; align-items: center; min-height: 44px; justify-self: start; }
 .brand span { display: grid; }
 .brand b { font: 700 16.8px/1.1 var(--display); letter-spacing: -0.03em; }
 .brand small {

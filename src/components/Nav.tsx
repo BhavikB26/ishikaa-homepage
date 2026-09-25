@@ -51,7 +51,6 @@ export default function Nav() {
     <header ref={headerRef} className={`nav${scrolled || open ? " nav-scrolled" : ""}`}>
       <div className="wrap nav-inner">
         <a href="#top" className="brand" aria-label="Zero Noise — Ishikaa and Dikshika">
-          <i aria-hidden />
           <span>
             <b>Zero Noise</b>
             <small>Ishikaa · Dikshika</small>

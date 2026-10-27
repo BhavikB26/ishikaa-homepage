@@ -555,7 +555,9 @@ h2 {
 }
 .rail.dragging { scroll-snap-type: none; cursor: grabbing; }
 .rail.dragging * { cursor: grabbing; }
-.rail-nav { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: -30px; }
+/* pulled up into the rail's shadow padding, so it sits above the rail: otherwise the rail's scroll area
+   covers the top of the arrows and swallows their clicks */
+.rail-nav { position: relative; z-index: 1; display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: -30px; }
 .rail-hint { margin-right: auto; font-size: 13px; color: var(--muted); }
 .rail-nav button {
   width: 44px;
